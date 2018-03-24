@@ -1,0 +1,50 @@
+---
+title: "LoL"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This an R mrakdown used to explore League of Legends Data
+```{r libraries}
+
+library(rvest)
+library(jsonlite)
+library(tidyverse)
+
+```
+
+```{r api, echo=FALSE}
+#Riot API Key to access league of legends data
+key <- 'RGAPI-9af79d5c-b8c9-4c73-8655-dfeaedeea338'
+
+base_url <- 'https://na1.api.riotgames.com'
+
+```
+
+```{r summoner, echo=FALSE}
+#If you want to pull summoner information using summoner ID - less common
+summoner_id <- '45702947'
+account <- read_html(paste0(base_url, '/lol/summoner/v3/summoners/',summoner_id,'?api_key=', key))
+
+#If you want to pull summoner information using summoner name - everyone knows
+summoner_name <- 'C9 Sneaky'
+account<- read_html(paste0(base_url, '/lol/summoner/v3/summoners/by-name/',summoner_name,'?api_key=', key))
+
+#Simple summoner specific information
+account_info <- fromJSON(account %>% html_text())
+account_id <- account_info$accountID
+print(account_info)
+                     
+```
+
+```{r static, echo=FALSE}
+
+
+```
+
+```{r league, }
